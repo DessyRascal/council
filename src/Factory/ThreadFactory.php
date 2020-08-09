@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Thread;
+use App\Entity\User;
 use App\Repository\ThreadRepository;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
@@ -21,10 +22,12 @@ final class ThreadFactory extends ModelFactory
 {
     protected function getDefaults(): array
     {
+        $repository = UserFactory::repository();
+
         return [
             'title' => self::faker()->words(3, true),
             'body' => self::faker()->paragraph(3, true),
-            'user' => UserFactory::random()
+            'user' => $repository->getCount() ? UserFactory::random() : UserFactory::new()->create()
         ];
     }
 
