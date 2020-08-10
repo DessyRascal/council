@@ -8,10 +8,27 @@
             <div class="col-sm-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">{{ thread.title }}</div>
+
                     <div class="panel-body">
                         {{ thread.body }}
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8 col-md-offset-2">
+                {% for reply in thread.replies %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#">{{ reply.owner.username }}</a> said {{ reply.createdAt|ago }}...
+                    </div>
+
+                    <div class="panel-body">
+                        {{ reply.body }}
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -34,7 +34,7 @@ class Reply
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="replies")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private $owner;
 
     public function getId(): ?int
     {
@@ -65,14 +65,14 @@ class Reply
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getOwner(): ?User
     {
-        return $this->user;
+        return $this->owner;
     }
 
-    public function setUser(?User $user): self
+    public function setOwner(?User $owner): self
     {
-        $this->user = $user;
+        $this->owner = $owner;
 
         return $this;
     }

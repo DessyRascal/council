@@ -48,7 +48,7 @@ class User implements UserInterface
     private $threads;
 
     /**
-     * @ORM\OneToMany(targetEntity=Reply::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Reply::class, mappedBy="owner")
      */
     private $replies;
 
@@ -179,7 +179,7 @@ class User implements UserInterface
     {
         if (!$this->replies->contains($reply)) {
             $this->replies[] = $reply;
-            $reply->setUser($this);
+            $reply->setOwner($this);
         }
 
         return $this;
@@ -190,8 +190,8 @@ class User implements UserInterface
         if ($this->replies->contains($reply)) {
             $this->replies->removeElement($reply);
             // set the owning side to null (unless already changed)
-            if ($reply->getUser() === $this) {
-                $reply->setUser(null);
+            if ($reply->getOwner() === $this) {
+                $reply->setOwner(null);
             }
         }
 

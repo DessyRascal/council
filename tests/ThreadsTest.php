@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Factory\ReplyFactory;
 use App\Factory\ThreadFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
@@ -11,23 +12,36 @@ class ThreadsTest extends WebTestCase
 {
     use ResetDatabase, Factories;
 
+    private $thread;
+
+    private $client;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->thread = ThreadFactory::new(['title' => 'Test Title'])->create();
+        static::ensureKernelShutdown();
+        $this->client = static::createClient();
+    }
+
     public function test_a_user_can_view_all_threads()
     {
-        $thread = ThreadFactory::new()->create(['title' => 'Test Title']);
-        static::ensureKernelShutdown();
-        $client = static::createClient();
-
-        $client->request('GET', '/threads');
-        self::assertContains($thread->getTitle(), $client->getResponse()->getContent());
+        $this->client->request('GET', '/threads');
+        self::assertContains($this->thread->getTitle(), $this->client->getResponse()->getContent());
     }
 
     public function test_a_user_can_view_a_single_thread()
     {
-        $thread = ThreadFactory::new()->create(['title' => 'Test Title']);
-        static::ensureKernelShutdown();
-        $client = static::createClient();
+        $this->client->request('GET', '/threads/' . $this->thread->getId());
+        self::assertContains($this->thread->getTitle(), $this->client->getResponse()->getContent());
+    }
 
-        $client->request('GET', '/threads/' . $thread->getId());
-        self::assertContains($thread->getTitle(), $client->getResponse()->getContent());
+    public function test_a_user_can_read_replies_that_are_associated_with_a_thread()
+    {
+        $this->thread = $this->thread->refresh();
+        $reply = ReplyFactory::new()->create(['thread' => $this->thread, 'body' => 'Test Body']);
+        $this->client->request('GET', '/threads/' . $this->thread->getId());
+        self::assertContains($reply->getBody(), $this->client->getResponse()->getContent());
     }
 }

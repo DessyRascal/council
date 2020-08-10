@@ -17,7 +17,17 @@ class AppFixtures extends Fixture
         $admin = UserFactory::new(['email' => 'admin@forum.test', 'roles' => ['ROLE_ADMIN']])->create();
         $users = UserFactory::new()->createMany(10);
 
-        $threads = ThreadFactory::new()->createMany(100);
-        $replies = ReplyFactory::new()->createMany(500);
+        $threads = ThreadFactory::new()->createMany(100, function() {
+            return [
+                'user' => UserFactory::random()
+            ];
+        });
+
+        $replies = ReplyFactory::new()->createMany(500, function() {
+            return [
+                'user' => UserFactory::random(),
+                'thread' => ThreadFactory::random()
+            ];
+        });
     }
 }

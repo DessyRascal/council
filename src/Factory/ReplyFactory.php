@@ -23,8 +23,8 @@ final class ReplyFactory extends ModelFactory
     {
         return [
             'body' => self::faker()->paragraph(3, true),
-            'user' => UserFactory::random(),
-            'thread' => ThreadFactory::random()
+            'owner' => UserFactory::new(),
+            'thread' => ThreadFactory::new()
         ];
     }
 
