@@ -3,26 +3,42 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a href="#">{{ thread.owner.username }}</a> posted: {{ thread.title }}</div>
+    <div class="row">
+        <div class="col-sm-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="#">{{ thread.owner.username }}</a> posted: {{ thread.title }}</div>
 
-                    <div class="panel-body">
-                        {{ thread.body }}
-                    </div>
+                <div class="panel-body">
+                    {{ thread.body }}
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-sm-8 col-md-offset-2">
-                {% for reply in thread.replies %}
-                    {% include 'thread/reply.html.twig' %}
-                {% endfor %}
-            </div>
+    <div class="row">
+        <div class="col-sm-8 col-md-offset-2">
+            {% for reply in thread.replies %}
+                {% include 'thread/reply.html.twig' %}
+            {% endfor %}
         </div>
     </div>
+
+    {% if app.user %}
+        <div class="row">
+            <div class="col-sm-8 col-md-offset-2">
+                <form action="" method="POST">
+                    {{ form_row(form.body) }}
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </div>
+
+                    {{ form_widget(form._token) }}
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center">Please <a href="{{ path('app_login') }}">sign in</a> to participate in this discussion.</p>
+    {% endif %}
 {% endblock %}

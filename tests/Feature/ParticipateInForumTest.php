@@ -34,27 +34,44 @@ class ParticipateInForumTest extends WebTestCase
         // And an existing thread
         $thread = ThreadFactory::new(['owner' => $user, 'title' => 'Test Title', ])->create();
 
-        // When the user adds a reply to the thread
-        $this->client->request('POST', "/threads/{$thread->getId()}/replies", [
-            'body' => 'Test Reply Body'
-        ]);
+        // With 0 replies
+        ReplyFactory::repository()->assertCount(0);
 
-        $this->assertResponseRedirects("/threads/{$thread->getId()}");
-
-        // Then their reply should be visible on the page
+        // When we visit the threads page
         $this->client->request('GET', "/threads/{$thread->getId()}");
 
+        // And the user adds a valid reply
+        $crawler = $this->client->submitForm('Post', [
+            'reply[body]' => 'Test Reply Body'
+        ]);
+
+        // We should be redirected back to the same page
+        $this->assertResponseRedirects("/threads/{$thread->getId()}");
+
+        // And the user's reply should be visible on the page
+        $this->client->request('GET', "/threads/{$thread->getId()}");
         $this->assertStringContainsString('Test Reply Body', $this->client->getResponse()->getContent());
+
+        // And 1 reply should be found in the db
+        ReplyFactory::repository()->assertCount(1);
     }
 
     /** @test */
     public function unauthenticated_users_may_not_add_replies()
     {
+        // Given we have a thread
         $thread = ThreadFactory::new(['title' => 'Test Title', ])->create();
 
-        $this->client->request('POST', "/threads/{$thread->getId()}/replies", []);
+        // With 0 replies
+        ReplyFactory::repository()->assertCount(0);
 
+        // If a guest tries to add a reply
+        $this->client->request('POST', "/threads/{$thread->getId()}", []);
+
+        // We should be redirected to login
         $this->assertResponseRedirects("/login");
+
+        // And no replies should be in the db
         ReplyFactory::repository()->assertCount(0);
     }
 }

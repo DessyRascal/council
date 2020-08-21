@@ -19,7 +19,8 @@ use Zenstruck\Foundry\Proxy;
  */
 final class UserFactory extends ModelFactory
 {
-    private $password = '$argon2id$v=19$m=65536,t=4,p=1$Cg7ZniBRbPKdfDY81FPKsw$5051Z0qxShxEN5PALT6a+eelG2gA28DvIzXfMKw57E0';
+    // secret
+    private $password = '$argon2id$v=19$m=65536,t=4,p=1$4cxp9GzUcRZca2ZQahOd/A$hY2UovhLF4OWXjWQQhD3XJJ7PkMTceRoL4YkRp4b3vs';
 
     protected function getDefaults(): array
     {
