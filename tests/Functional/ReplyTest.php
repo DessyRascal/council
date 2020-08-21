@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Feature\Functional;
 
 use App\Entity\User;
 use App\Factory\ReplyFactory;

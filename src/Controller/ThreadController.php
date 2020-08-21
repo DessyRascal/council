@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ThreadController extends AbstractController
 {
     /**
-     * @Route("/threads", name="threads", methods={"GET"})
+     * @Route("/threads", name="threads_index", methods={"GET"})
      * @param EntityManagerInterface $em
      *
      * @return Response
@@ -26,7 +26,7 @@ class ThreadController extends AbstractController
     }
 
     /**
-     * @Route("/threads/{id}", name="thread", methods={"GET"})
+     * @Route("/threads/{id}", name="threads_show", methods={"GET"})
      * @param Thread $thread
      *
      * @return Response

@@ -12,7 +12,7 @@
                         {% for thread in threads %}
                             <article>
                                 <h4>
-                                    <a href="{{ path('thread', { id : thread.id }) }}">{{ thread.title }}</a>
+                                    <a href="{{ path('threads_show', { id : thread.id }) }}">{{ thread.title }}</a>
                                 </h4>
                                 <div class="body">
                                     {{ thread.body }}

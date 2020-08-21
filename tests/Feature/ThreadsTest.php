@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Feature;
 
 use App\Factory\ReplyFactory;
 use App\Factory\ThreadFactory;
