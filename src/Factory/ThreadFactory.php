@@ -27,7 +27,7 @@ final class ThreadFactory extends ModelFactory
         return [
             'title' => self::faker()->words(3, true),
             'body' => self::faker()->paragraph(3, true),
-            'user' => UserFactory::new()
+            'owner' => UserFactory::new()
         ];
     }
 
