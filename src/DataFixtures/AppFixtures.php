@@ -19,13 +19,13 @@ class AppFixtures extends Fixture
 
         $threads = ThreadFactory::new()->createMany(100, function() {
             return [
-                'user' => UserFactory::random()
+                'owner' => UserFactory::random()
             ];
         });
 
         $replies = ReplyFactory::new()->createMany(500, function() {
             return [
-                'user' => UserFactory::random(),
+                'owner' => UserFactory::random(),
                 'thread' => ThreadFactory::random()
             ];
         });
