@@ -18,14 +18,14 @@ class ThreadTest extends KernelTestCase
     public function a_thread_has_an_owner()
     {
         $thread = ThreadFactory::new()->create();
-        self::assertInstanceOf(User::class, $thread->getOwner());
+        $this->assertInstanceOf(User::class, $thread->getOwner());
     }
 
     /** @test */
     public function a_thread_has_replies_collection()
     {
         $thread = ThreadFactory::new()->create();
-        self::assertInstanceOf(Collection::class, $thread->getReplies());
+        $this->assertInstanceOf(Collection::class, $thread->getReplies());
     }
 
     /** @test */

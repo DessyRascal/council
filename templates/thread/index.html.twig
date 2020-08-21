@@ -17,10 +17,31 @@
                                 {{ thread.body }}
                             </div>
                         </article>
-                        <hr>
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+
+    {% if app.user %}
+        <div class="row">
+            <div class="col-sm-8 col-md-offset-2">
+                <form action="" method="POST">
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.body) }}
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Create Thread</button>
+                    </div>
+
+                    {{ form_widget(form._token) }}
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center">Please <a href="{{ path('app_login') }}">sign in</a> to participate in this forum.</p>
+    {% endif %}
 {% endblock %}

@@ -25,23 +25,26 @@ class ThreadsTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function test_a_user_can_view_all_threads()
+    /** @test */
+    public function a_user_can_view_all_threads()
     {
         $this->client->request('GET', '/threads');
-        self::assertContains($this->thread->getTitle(), $this->client->getResponse()->getContent());
+        $this->assertContains($this->thread->getTitle(), $this->client->getResponse()->getContent());
     }
 
-    public function test_a_user_can_view_a_single_thread()
+    /** @test */
+    public function a_user_can_view_a_single_thread()
     {
         $this->client->request('GET', '/threads/' . $this->thread->getId());
-        self::assertContains($this->thread->getTitle(), $this->client->getResponse()->getContent());
+        $this->assertContains($this->thread->getTitle(), $this->client->getResponse()->getContent());
     }
 
-    public function test_a_user_can_read_replies_that_are_associated_with_a_thread()
+    /** @test */
+    public function a_user_can_read_replies_that_are_associated_with_a_thread()
     {
         $this->thread = $this->thread->refresh();
         $reply = ReplyFactory::new()->create(['thread' => $this->thread, 'body' => 'Test Body']);
         $this->client->request('GET', '/threads/' . $this->thread->getId());
-        self::assertContains($reply->getBody(), $this->client->getResponse()->getContent());
+        $this->assertContains($reply->getBody(), $this->client->getResponse()->getContent());
     }
 }

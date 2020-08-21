@@ -16,6 +16,6 @@ class ReplyTest extends KernelTestCase
     public function it_has_an_owner()
     {
         $reply = ReplyFactory::new()->create();
-        self::assertInstanceOf(User::class, $reply->getOwner());
+        $this->assertInstanceOf(User::class, $reply->getOwner());
     }
 }
