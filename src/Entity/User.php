@@ -43,7 +43,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Thread::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Thread::class, mappedBy="owner")
      */
     private $threads;
 
