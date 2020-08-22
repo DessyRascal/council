@@ -1,19 +1,13 @@
 <?php
 
-namespace App\Tests\Feature\Functional;
+namespace App\Tests\Functional;
 
 use App\Entity\User;
-use App\Factory\ReplyFactory;
 use App\Factory\ThreadFactory;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Zenstruck\Foundry\Test\Factories;
-use Zenstruck\Foundry\Test\ResetDatabase;
 
-class ThreadTest extends KernelTestCase
+class ThreadTest extends BaseKernelTestCase
 {
-    use ResetDatabase, Factories;
-
     /** @test */
     public function a_thread_has_an_owner()
     {

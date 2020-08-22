@@ -21,11 +21,13 @@ final class ReplyFactory extends ModelFactory
 {
     protected function getDefaults(): array
     {
-        return [
-            'body' => self::faker()->paragraph(3, true),
-            'owner' => UserFactory::new(),
-            'thread' => ThreadFactory::new()
-        ];
+        return array_merge(
+            DefaultFactoryValues::getDefaultReplyValues(),
+            [
+                'owner' => UserFactory::new(),
+                'thread' => ThreadFactory::new(),
+            ]
+        );
     }
 
     protected function initialize(): self

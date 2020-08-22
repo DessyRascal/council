@@ -2,34 +2,21 @@
 
 namespace App\Tests\Feature;
 
+use App\Factory\DefaultFactoryValues;
 use App\Factory\ReplyFactory;
 use App\Factory\ThreadFactory;
-use App\Factory\UserFactory;
-use App\Repository\ReplyRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-class ParticipateInForumTest extends WebTestCase
+class ParticipateInForumTest extends BaseWebTestCase
 {
     use ResetDatabase, Factories;
-
-    private $client;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        static::ensureKernelShutdown();
-        $this->client = static::createClient();
-    }
 
     /** @test */
     public function an_authenticated_user_may_participate_in_forum_threads()
     {
         // Given we have an authenticated user
-        $user = UserFactory::new()->create();
-        $this->client->loginUser($user->object());
+        $user = $this->signIn();
 
         // And an existing thread
         $thread = ThreadFactory::new(['owner' => $user, 'title' => 'Test Title', ])->create();
@@ -41,9 +28,9 @@ class ParticipateInForumTest extends WebTestCase
         $this->client->request('GET', "/threads/{$thread->getId()}");
 
         // And the user adds a valid reply
-        $crawler = $this->client->submitForm('Post', [
-            'reply[body]' => 'Test Reply Body'
-        ]);
+        $crawler = $this->client->submitForm('Post', DefaultFactoryValues::getDefaultReplyValues('reply', [
+            'body' => 'Test Reply Body'
+        ]));
 
         // We should be redirected back to the same page
         $this->assertResponseRedirects("/threads/{$thread->getId()}");

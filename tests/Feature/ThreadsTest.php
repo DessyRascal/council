@@ -4,25 +4,20 @@ namespace App\Tests\Feature;
 
 use App\Factory\ReplyFactory;
 use App\Factory\ThreadFactory;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-class ThreadsTest extends WebTestCase
+class ThreadsTest extends BaseWebTestCase
 {
     use ResetDatabase, Factories;
 
     private $thread;
-
-    private $client;
 
     protected function setUp()
     {
         parent::setUp();
 
         $this->thread = ThreadFactory::new(['title' => 'Test Title'])->create();
-        static::ensureKernelShutdown();
-        $this->client = static::createClient();
     }
 
     /** @test */

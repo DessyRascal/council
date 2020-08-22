@@ -21,14 +21,12 @@ final class ThreadFactory extends ModelFactory
 {
     protected function getDefaults(): array
     {
-        $userRepository = UserFactory::repository();
-        $user = $userRepository->first();
-
-        return [
-            'title' => self::faker()->words(3, true),
-            'body' => self::faker()->paragraph(3, true),
-            'owner' => UserFactory::new()
-        ];
+        return array_merge(
+            DefaultFactoryValues::getDefaultThreadValues(),
+            [
+                'owner' => UserFactory::new()
+            ]
+        );
     }
 
     protected function initialize(): self

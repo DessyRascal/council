@@ -19,16 +19,9 @@ use Zenstruck\Foundry\Proxy;
  */
 final class UserFactory extends ModelFactory
 {
-    // secret
-    private $password = '$argon2id$v=19$m=65536,t=4,p=1$4cxp9GzUcRZca2ZQahOd/A$hY2UovhLF4OWXjWQQhD3XJJ7PkMTceRoL4YkRp4b3vs';
-
     protected function getDefaults(): array
     {
-        return [
-            'email' => self::faker()->email,
-            'password' => $this->password,
-            'roles' => ['ROLE_USER']
-        ];
+        return DefaultFactoryValues::getDefaultUserValues();
     }
 
     protected function initialize(): self
